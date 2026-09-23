@@ -1,4 +1,4 @@
-name: Build Maze Pets APK
+name: Build Maze Pets AAB
 
 on:
   push:
@@ -29,11 +29,11 @@ jobs:
         with:
           gradle-version: '8.6'
 
-      - name: Build debug APK
-        run: gradle assembleDebug --no-daemon
+      - name: Build Release AAB
+        run: gradle bundleRelease --no-daemon
 
-      - name: Upload APK
+      - name: Upload AAB
         uses: actions/upload-artifact@v4
         with:
-          name: maze-pets-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: maze-pets-aab
+          path: app/build/outputs/bundle/release/app-release.aab
