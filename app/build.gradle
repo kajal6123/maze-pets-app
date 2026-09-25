@@ -16,7 +16,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("maze-pets-upload-key-v3.jks")
+            storeFile file("maze-pets-upload-key-v4.jks")
             storePassword System.getenv("KEYSTORE_PASSWORD")
             keyAlias System.getenv("KEY_ALIAS")
             keyPassword System.getenv("KEY_PASSWORD")
@@ -34,8 +34,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-}
 
-dependencies {
-    implementation 'com.google.android.gms:play-services-ads:23.2.0'
+    dependencies {
+        implementation 'com.google.android.gms:play-services-ads:23.2.0'
+    }
 }
