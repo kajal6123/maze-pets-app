@@ -13,6 +13,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
 
 public class MainActivity extends Activity {
 
@@ -23,6 +24,16 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set maximum ad content rating to G
+        RequestConfiguration requestConfiguration =
+                new RequestConfiguration.Builder()
+                        .setMaxAdContentRating(
+                                RequestConfiguration.MAX_AD_CONTENT_RATING_G
+                        )
+                        .build();
+
+        MobileAds.setRequestConfiguration(requestConfiguration);
 
         // Initialize AdMob
         MobileAds.initialize(this, initializationStatus -> {});
