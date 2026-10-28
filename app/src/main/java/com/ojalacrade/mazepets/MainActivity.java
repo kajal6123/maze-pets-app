@@ -17,15 +17,16 @@ import com.google.android.gms.ads.RequestConfiguration;
 
 public class MainActivity extends Activity {
 
-    private static final String BANNER_AD_UNIT_ID =
-            "ca-app-pub-3775789465941687/4401977068";
+    // Aapka AdMob Banner Unit ID
+    private static final String BANNER_AD_UNIT_ID = "ca-app-pub-3775789465941687/4401977068";
+    private AdView mAdView;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set maximum ad content rating to G
+        // Set maximum ad content rating to G (Family friendly)
         RequestConfiguration requestConfiguration =
                 new RequestConfiguration.Builder()
                         .setMaxAdContentRating(
@@ -35,14 +36,14 @@ public class MainActivity extends Activity {
 
         MobileAds.setRequestConfiguration(requestConfiguration);
 
-        // Initialize AdMob
+        // Initialize AdMob Mobile Ads SDK
         MobileAds.initialize(this, initializationStatus -> {});
 
         // Main vertical layout
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
 
-        // Game WebView
+        // Game WebView (Upar game display hoga)
         WebView webView = new WebView(this);
         webView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -57,23 +58,48 @@ public class MainActivity extends Activity {
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("file:///android_asset/maze-pets.html");
 
-        // Banner Ad
-        AdView adView = new AdView(this);
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(BANNER_AD_UNIT_ID);
+        // Banner Ad (Niche Ad banner show hoga)
+        mAdView = new AdView(this);
+        mAdView.setAdSize(AdSize.BANNER);
+        mAdView.setAdUnitId(BANNER_AD_UNIT_ID);
 
-        adView.setLayoutParams(new LinearLayout.LayoutParams(
+        mAdView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         ));
 
         AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);
 
-        // Add game first, then banner at bottom
+        // Layout me views add karein (Pehle WebView, phir Niche AdView)
         root.addView(webView);
-        root.addView(adView);
+        root.addView(mAdView);
 
         setContentView(root);
+    }
+
+    // Ad lifecycle methods memory leaks bachane aur ads ko properly manage karne ke liye
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 }
