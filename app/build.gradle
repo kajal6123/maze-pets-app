@@ -10,8 +10,8 @@ android {
         applicationId "com.ojalacrade.mazepets"
         minSdk 21
         targetSdk 36
-        versionCode 4
-        versionName "1.1"
+        versionCode 5     // Naya version code (Pichla 4 tha)
+        versionName "1.2" // Naya version name (Pichla "1.1" tha)
     }
 
     signingConfigs {
@@ -34,8 +34,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
 
-    dependencies {
-        implementation 'com.google.android.gms:play-services-ads:23.2.0'
-    }
+// dependencies block hamesha android { } block ke BAHAR hota hai
+dependencies {
+    implementation 'com.google.android.gms:play-services-ads:23.2.0'
 }
