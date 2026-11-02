@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,6 +23,19 @@ public class MainActivity extends Activity {
             "ca-app-pub-3775789465941687/4401977068";
 
     private AdView mAdView;
+    private WebView webView;
+
+    // JavaScript se Android app close karne ka connection
+    public class AndroidBridge {
+        @JavascriptInterface
+        public void exitApp() {
+            runOnUiThread(() -> {
+                if (!isFinishing()) {
+                    finish();
+                }
+            });
+        }
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -41,7 +55,7 @@ public class MainActivity extends Activity {
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
 
-        WebView webView = new WebView(this);
+        webView = new WebView(this);
         webView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 0,
@@ -52,9 +66,11 @@ public class MainActivity extends Activity {
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
 
+        // HTML ke JavaScript ko Android se connect karo
+        webView.addJavascriptInterface(new AndroidBridge(), "Android");
+
         webView.setWebViewClient(new WebViewClient());
 
-        // FIXED: Correct HTML asset filename
         webView.loadUrl("file:///android_asset/maze_pets.html");
 
         mAdView = new AdView(this);
@@ -96,6 +112,13 @@ public class MainActivity extends Activity {
         if (mAdView != null) {
             mAdView.destroy();
         }
+
+        if (webView != null) {
+            webView.removeJavascriptInterface("Android");
+            webView.destroy();
+            webView = null;
+        }
+
         super.onDestroy();
     }
 }
