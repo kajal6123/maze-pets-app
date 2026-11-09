@@ -1,4 +1,3 @@
-
 plugins {
     id 'com.android.application'
 }
@@ -11,8 +10,8 @@ android {
         applicationId "com.ojalacrade.mazepets"
         minSdk 24
         targetSdk 36
-        versionCode 7
-        versionName "1.4"
+        versionCode 8       // Puraana 7 tha, ab 8 kar diya hai naye update ke liye
+        versionName "1.5"   // Version name 1.4 se badha kar 1.5 kar diya hai
     }
 
     signingConfigs {
