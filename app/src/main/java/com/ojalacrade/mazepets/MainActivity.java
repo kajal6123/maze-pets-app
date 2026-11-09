@@ -1,4 +1,3 @@
-
 package com.ojalacrade.mazepets;
 
 import android.annotation.SuppressLint;
@@ -19,8 +18,9 @@ import com.google.android.gms.ads.RequestConfiguration;
 
 public class MainActivity extends Activity {
 
+    // Naya Banner Ad Unit ID
     private static final String BANNER_AD_UNIT_ID =
-            "ca-app-pub-3775789465941687/4401977068";
+            "ca-app-pub-3775789465941687/4564830800";
 
     private AdView mAdView;
     private WebView webView;
